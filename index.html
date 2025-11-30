@@ -2,44 +2,391 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Rayssa Lima - A excelência em Mega Hair e Harmonização Capilar.">
     <title>Rayssa Lima | Mega Hair Expert</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <!-- Favicon logo -->
     <link rel="icon" type="image/png" href="logo.png">
-    <link rel="shortcut icon" type="image/png" href="logo.png">
+
+    <style>
+        :root {
+            /* Paleta Premium */
+            --gold-primary: #D4AF37;
+            --gold-light: #F9EDC3;
+            --gold-dark: #AA8A26;
+            --gold-metallic: linear-gradient(135deg, #BF953F 0%, #FCF6BA 50%, #B38728 100%, #FBF5B7 100%);
+            
+            --bg-deep: #050505;
+            --bg-panel: #0a0a0a;
+            
+            --text-main: #E0E0E0;
+            --text-muted: #A0A0A0;
+            
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+            
+            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* --- Reset & Base --- */
+        html, body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            overscroll-behavior-y: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+
+        p {
+            font-weight: 300;
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            color: var(--text-muted);
+        }
+
+        /* --- Loader --- */
+        .loader-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-deep);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 99999;
+        }
+        .loader-logo { width: 100px; opacity: 0.8; animation: pulse 2s infinite ease-in-out; }
+
+        /* --- Navbar Premium --- */
+        .navbar {
+            padding: 2rem 0;
+            transition: var(--transition-smooth);
+        }
+        .navbar.scrolled {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: fixed; top: 0; width: 100%; z-index: 10000;
+        }
+        .logo-navbar-luxo {
+            height: 50px; width: auto;
+            filter: drop-shadow(0 0 15px rgba(212,175,55,0.1));
+            transition: transform 0.3s;
+        }
+        .logo-navbar-luxo:hover { transform: scale(1.03); }
+        
+        .nav-link {
+            color: #fff !important;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-left: 2rem;
+            font-weight: 400;
+            position: relative;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .nav-link:hover { opacity: 1; color: var(--gold-light) !important; }
+        
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -5px; left: 50%; width: 0; height: 1px;
+            background: var(--gold-primary); transition: all 0.4s ease; transform: translateX(-50%);
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        .btn-cta {
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            padding: 10px 24px !important;
+            color: var(--gold-primary) !important;
+        }
+        .btn-cta:hover {
+            background: var(--gold-primary);
+            color: #000 !important;
+            border-color: var(--gold-primary);
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            position: relative; width: 100%; height: 100vh; height: 100dvh;
+            overflow: hidden; padding-top: 0;
+        }
+        .ambient-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.2; transition: background 2s ease;
+        }
+        
+        .hero-slider-container { height: 100%; width: 100%; position: relative; overflow: hidden; }
+        .hero-slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 1.2s ease; z-index: 1;
+        }
+        .hero-slide.active { opacity: 1; z-index: 2; }
+        .hero-slide img {
+            width: 100%; height: 100%; object-fit: cover;
+            transform: scale(1); transition: transform 10s ease;
+        }
+        .hero-slide.active img { transform: scale(1.15); }
+
+        /* Hero Text Desktop */
+        .hero-text-wrapper { padding-left: 5%; z-index: 5; }
+        .hero-overline {
+            color: var(--gold-primary); letter-spacing: 4px; font-size: 0.75rem;
+            text-transform: uppercase; display: block; margin-bottom: 1.5rem; font-weight: 500;
+        }
+        .hero-title {
+            font-size: 4rem; line-height: 1.1; margin-bottom: 2rem;
+            background: var(--gold-metallic); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero-title em { font-family: var(--font-heading); font-style: italic; font-weight: 400; color: #fff; -webkit-text-fill-color: #fff; }
+        
+        /* Botão Luxo Padrão */
+        .btn-luxury {
+            display: inline-block;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--gold-primary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+        .btn-luxury::before {
+            content: ''; position: absolute; bottom: -1px; left: 0; width: 0; height: 1px;
+            background: #fff; transition: var(--transition-smooth);
+        }
+        .btn-luxury:hover { padding-left: 15px; color: var(--gold-light); }
+        .btn-luxury:hover::before { width: 50%; }
+
+        /* --- Mobile Overlay (App Style) --- */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: rgba(10,10,10,0.98); padding: 30px;
+                border-radius: 0 0 30px 30px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .hero-text-wrapper-mobile {
+                position: absolute; bottom: 0; left: 0; width: 100%;
+                background: linear-gradient(to top, #000 0%, rgba(0,0,0,0.8) 50%, transparent 100%);
+                padding: 40px 25px 110px 25px; 
+                z-index: 10; display: flex; flex-direction: column; justify-content: flex-end;
+                pointer-events: none;
+            }
+            .hero-content-mobile { pointer-events: auto; text-align: left; }
+            .hero-overline-mobile {
+                color: var(--gold-primary); font-size: 0.7rem; letter-spacing: 3px;
+                text-transform: uppercase; margin-bottom: 10px; display: block;
+            }
+            .hero-title-mobile {
+                font-size: 3rem; line-height: 1.05; margin-bottom: 20px; color: #fff;
+            }
+            .hero-desc-mobile { font-size: 1rem; color: rgba(255,255,255,0.8); margin-bottom: 30px; }
+            
+            .btn-mobile-glass {
+                display: block; width: 100%; text-align: center;
+                background: rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: #fff; padding: 18px 0; border-radius: 0;
+                font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px;
+                text-decoration: none; transition: background 0.3s;
+            }
+            .btn-mobile-glass:active { background: rgba(255,255,255,0.15); }
+        }
+
+        /* --- Sections Styling --- */
+        .section-padding { padding: 120px 0; }
+        .bg-dark-panel { background-color: var(--bg-panel); }
+        
+        .section-subtitle {
+            color: var(--gold-primary); font-size: 0.75rem; letter-spacing: 3px;
+            text-transform: uppercase; display: block; margin-bottom: 15px;
+        }
+        .section-heading {
+            font-size: 3rem; margin-bottom: 2rem; color: #fff;
+        }
+
+        /* Moldura de Imagem Luxo */
+        .luxury-frame {
+            position: relative; padding: 20px 0 0 20px;
+        }
+        .luxury-frame::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100px; height: 100px;
+            border-top: 2px solid var(--gold-primary); border-left: 2px solid var(--gold-primary);
+        }
+        .luxury-frame img { 
+            width: 100%; display: block; 
+            filter: sepia(10%) contrast(1.1); transition: filter 0.5s;
+        }
+        .luxury-frame:hover img { filter: sepia(0%) contrast(1); }
+
+        /* Stats */
+        .stats-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+            margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat-num { 
+            font-family: var(--font-heading); font-size: 2.5rem; 
+            background: var(--gold-metallic); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; display: block; }
+
+        /* --- Portfolio Carousel Styles --- */
+        .portfolio-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        .portfolio-track {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+            padding-bottom: 30px; /* Space for shadow */
+            padding-left: 5%; /* Start offset */
+            padding-right: 5%;
+            scroll-snap-type: x mandatory;
+        }
+        .portfolio-track::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
+
+        .portfolio-card {
+            flex: 0 0 auto;
+            width: 350px; /* Desktop width */
+            aspect-ratio: 3/4;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            scroll-snap-align: center;
+            border-radius: 4px;
+        }
+        .portfolio-card img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.8s ease; filter: brightness(0.9);
+        }
+        .portfolio-card:hover img { transform: scale(1.05); filter: brightness(1.05); }
+        
+        .portfolio-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px;
+            background: linear-gradient(to top, #000 0%, transparent 100%);
+            transform: translateY(20px); opacity: 0; transition: all 0.5s ease;
+        }
+        .portfolio-card:hover .portfolio-overlay { transform: translateY(0); opacity: 1; }
+        
+        .portfolio-title { 
+            font-family: var(--font-heading); font-size: 1.5rem; color: #fff; margin: 0; 
+        }
+        .portfolio-cat { 
+            font-size: 0.75rem; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; 
+        }
+
+        /* Carousel Navigation Buttons */
+        .portfolio-nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 50px; height: 50px; border-radius: 50%;
+            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2);
+            color: #fff; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; z-index: 10; backdrop-filter: blur(5px);
+            transition: all 0.3s;
+        }
+        .portfolio-nav-btn:hover { background: var(--gold-primary); color: #000; border-color: var(--gold-primary); }
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+
+        /* --- Footer Luxo --- */
+        .footer-luxury {
+            background-color: #000; padding: 80px 0 100px 0; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-brand { 
+            font-family: var(--font-heading); font-size: 2rem; margin-bottom: 10px; color: #fff; 
+        }
+        .footer-sub { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .footer-social a {
+            color: #fff; font-size: 1.2rem; margin: 0 15px; transition: color 0.3s;
+        }
+        .footer-social a:hover { color: var(--gold-primary); }
+
+        .btn-map-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: var(--gold-light); padding: 10px 20px; border-radius: 50px;
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; text-decoration: none;
+            transition: all 0.3s; margin-top: 15px;
+        }
+        .btn-map-pill:hover { background: var(--gold-primary); color: #000; border-color: var(--gold-primary); }
+
+        /* --- Floating Buttons --- */
+        .floating-group {
+            position: fixed; bottom: 30px; right: 30px; z-index: 9990;
+            display: flex; gap: 15px; 
+        }
+
+        .btn-float {
+            width: 56px; height: 56px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; text-decoration: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(5px);
+        }
+        .btn-float:hover { transform: scale(1.1); }
+        
+        .map-float { background: var(--gold-metallic); color: #000; border: 1px solid var(--gold-light); }
+        .whatsapp-float { background: #25D366; color: white; border: 1px solid #4ade80; }
+
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        
+        /* Mobile Adjustments */
+        @media (max-width: 991px) {
+            .portfolio-nav-btn { display: none; } /* Hide arrows on mobile */
+            .portfolio-card { width: 85vw; } /* Cards wider on mobile */
+            .portfolio-track { padding-left: 20px; padding-right: 20px; gap: 15px; }
+        }
+
+        @media (max-width: 768px) {
+            .section-heading { font-size: 2.2rem; }
+            .section-padding { padding: 80px 0; }
+            .floating-group { right: 20px; bottom: 20px; }
+        }
+    </style>
 </head>
 <body>
 
     <div class="loader-wrapper">
-        
-        <img src="logo.png" alt="Loading..." class="loader-logo" >
+        <img src="logo.png" alt="Rayssa Lima" class="loader-logo">
     </div>
 
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand p-0 m-0" href="#" style="display:flex;align-items:center;justify-content:center;gap:0;">
-                <img src="logo.png" alt="Logo Rayssa Lima" class="logo-navbar-luxo" loading="eager">
+            <a class="navbar-brand p-0 m-0" href="#">
+                <img src="logo.png" alt="Rayssa Lima" class="logo-navbar-luxo">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="bi bi-list text-white fs-2"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="border:none;">
+                <span class="bi bi-list text-white fs-1"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#concept">Conceito</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#portfolio">Portfólio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#expert">A Expert</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#portfolio">Coleção</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#expert">Expert</a></li>
                     <li class="nav-item">
-                        <a class="nav-link btn-cta" href="https://api.whatsapp.com/message/QBMFUK7NZ2JVL1" target="_blank">Agendar Consultoria</a>
+                        <a href="https://web.whatsapp.com/send?phone=557192396052&text=Olá,%20gostaria%20de%20consultar%20a%20agenda." class="nav-link btn-cta" target="_blank">Reservar</a>
                     </li>
                 </ul>
             </div>
@@ -47,22 +394,14 @@
     </nav>
 
     <header class="hero-section">
-        <div class="ambient-bg"></div> <div class="container h-100">
-            <div class="row h-100 align-items-center">
+        <div class="ambient-bg"></div>
+        <div class="container-fluid h-100 p-0">
+            <div class="row h-100 m-0 align-items-center">
                 
-                <div class="col-lg-5 order-2 order-lg-1 hero-text-wrapper">
-                    <div class="hero-content">
-                        <span class="hero-overline">Beauty Stars Award Winner</span>
-                        <h1 class="hero-title">A Arte da <br><em>Harmonização Capilar</em></h1>
-                        <p class="hero-desc">Redefina o conceito de luxo e naturalidade. Fios selecionados e técnica imperceptível para realizar sonhos.</p>
-                        <a href="#portfolio" class="btn-outline-luxury">Descubra a Coleção</a>
-                    </div>
-                </div>
-
-                <div class="col-lg-7 order-1 order-lg-2 h-100 position-relative">
+                <div class="col-lg-7 p-0 h-100 position-relative">
                     <div class="hero-slider-container">
                         <div class="hero-slide active" data-color="#4a3b32">
-                            <img src="Rayssa Lima Mega Hair Expert 1.PNG" alt="Mega Hair Loiro Premium">
+                            <img src="Rayssa Lima Mega Hair Expert 1.jpg" alt="Mega Hair Loiro Premium">
                         </div>
                         <div class="hero-slide" data-color="#1a1a1a">
                             <img src="Rayssa Lima Mega  Hair Expert 2.jpg" alt="Cabelo Escuro Longo">
@@ -70,165 +409,284 @@
                         <div class="hero-slide" data-color="#8c6a5d">
                             <img src="Rayssa Lima Mega Hair.jpg" alt="Textura Natural">
                         </div>
-                         <div class="hero-slide" data-color="#8c6a5d">
+                        <div class="hero-slide" data-color="#8c6a5d">
                             <img src="Rayssa Lima Mega Hair Expert 01.jpg" alt="Textura Natural">
                         </div>
 
-                        <div class="slider-controls">
-                            <button id="prevSlide"><i class="bi bi-arrow-left"></i></button>
-                            <button id="nextSlide"><i class="bi bi-arrow-right"></i></button>
+                        <div class="hero-text-wrapper-mobile d-flex d-lg-none">
+                            <div class="hero-content-mobile">
+                                <span class="hero-overline-mobile">Beauty Stars Winner</span>
+                                <h1 class="hero-title-mobile">Arte da <br><em>Harmonização</em></h1>
+                                <p class="hero-desc-mobile">Redefina o conceito de luxo e naturalidade. Fios selecionados e técnica imperceptível.</p>
+                                <a href="#portfolio" class="btn-mobile-glass">Ver Coleção</a>
+                            </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="col-lg-5 d-none d-lg-block hero-text-wrapper">
+                    <span class="hero-overline">Beauty Stars Award Winner</span>
+                    <h1 class="hero-title">A Arte da <br><em>Harmonização</em></h1>
+                    <p style="margin-bottom: 3rem; max-width: 400px;">
+                        Fios selecionados com rigor e técnica imperceptível. Uma experiência de transformação criada para quem não aceita menos que a perfeição.
+                    </p>
+                    <a href="#portfolio" class="btn-luxury">Explorar Coleção</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="concept" class="section-padding bg-dark-theme">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 mb-5 mb-lg-0" data-gsap="fade-up">
-                        <div class="image-frame-luxury">
-                            <img src="Rayssa Mega Hair.jpg" alt="Rayssa Lima Expert" class="img-fluid">
-                        </div>
-                    </div>
-                    <div class="col-lg-5 offset-lg-1" data-gsap="fade-up" data-delay="0.2">
-                        <span class="subtitle-gold">Sobre a Expert</span>
-                        <h2 class="section-title">A Curadoria do Extraordinário</h2>
-                        <p class="section-text">
-                            Com mais de <strong>10 anos de excelência</strong>, Rayssa Lima elevou a aplicação de Mega Hair a um patamar de arte. Mestra nas técnicas mais nobres e seguras do mercado, ela oferece não apenas um serviço, mas uma <strong>experiência sensorial completa</strong>.
-                        </p>
-                        <p class="section-text">
-                            Nosso studio é um refúgio premium e aconchegante, onde o profissionalismo extremo garante que cada detalhe — da seleção dos fios à finalização — seja executado para realizar o seu sonho com perfeição e naturalidade.
-                        </p>
-                        <div class="stats-row mt-4">
-                            <div class="stat-item">
-                                <span class="stat-number">+10</span>
-                                <span class="stat-label">Anos de Expertise</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">VIP</span>
-                                <span class="stat-label">Atendimento Premium</span>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <a href="https://api.whatsapp.com/message/QBMFUK7NZ2JVL1" class="btn-outline-luxury">Agendar Avaliação</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    <section id="portfolio" class="section-padding">
-        <div class="container">
-            <div class="text-center mb-5" data-gsap="fade-up">
-                <span class="subtitle-gold">Portfolio</span>
-                <h2 class="section-title">Transformações Reais</h2>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-md-4" data-gsap="fade-up">
-                    <div class="portfolio-item vertical">
-                        <img src="Rayssa Lima Expert.jpg" alt="Mega Hair">
-                        <div class="overlay">
-                            <h3>Iluminado Premium</h3>
-                            <p>Técnica de Fita Adesiva</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4" data-gsap="fade-up" data-delay="0.1">
-                    <div class="portfolio-item">
-                        <img src="Rayssa Lima Mega hair 4.jpg" alt="Mega Hair">
-                        <div class="overlay">
-                            <h3>Volume & Densidade</h3>
-                            <p>Fios de alta qualidade</p>
-                        </div>
-                    </div>
-                    <div class="portfolio-item mt-4">
-                        <img src="Rayssa Lima Mega  03.jpg" alt="Mega Hair">
-                        <div class="overlay">
-                            <h3>Cabelo Brasileiro do Sul</h3>
-                            <p>Textura Fina</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4" data-gsap="fade-up" data-delay="0.2">
-                    <div class="portfolio-item vertical">
-                        <img src="Loiro Perolado Rayssa Lima Mega Hair.jpg" alt="Mega Hair">
-                        <div class="overlay">
-                            <h3>Loiro Perolado</h3>
-                            <p>Correção de Cor + Extensão</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center mt-5">
-                <a href="https://www.instagram.com/studiorayssalima_" target="_blank" class="link-luxury">Ver mais no Instagram <i class="bi bi-arrow-right"></i></a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Seção A Expert -->
-    <section id="expert" class="section-padding bg-dark-theme">
+    <section id="concept" class="section-padding bg-dark-panel">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-5 mb-lg-0" data-gsap="fade-up">
-                    <div class="image-frame-luxury">
-                        <img src="a expert Rayssa Lima.jpg" alt="Rayssa Lima" class="img-fluid">
+                    <div class="luxury-frame">
+                        <img src="Rayssa Mega Hair.jpg" alt="Studio Rayssa Lima">
                     </div>
                 </div>
                 <div class="col-lg-5 offset-lg-1" data-gsap="fade-up" data-delay="0.2">
-                    <span class="subtitle-gold">A Expert</span>
-                    <h2 class="section-title">Rayssa Lima</h2>
-                    <p class="section-text">
-                        Com mais de uma década de dedicação à excelência, Rayssa Lima consolidou-se como uma referência em Mega Hair. Dominando as técnicas mais prestigiadas e seguras do mercado, Rayssa une precisão técnica a um atendimento sensível e personalizado.
+                    <span class="section-subtitle">Sobre a Experiência</span>
+                    <h2 class="section-heading">Curadoria do <br>Extraordinário</h2>
+                    <p>
+                        Com mais de <strong>10 anos de excelência</strong>, Rayssa Lima elevou a aplicação de Mega Hair a um patamar de arte. Mestra nas técnicas mais nobres e seguras do mercado.
                     </p>
-                    <p class="section-text">
-                        Cada cliente vivencia uma jornada única, cuidadosamente orquestrada do primeiro contato ao resultado final. No Rayssa Mega Hair Expert, o ambiente transcende o conceito de salão: é um espaço premium e acolhedor, projetado para ser um refúgio de beleza, onde transformações acontecem e sonhos se tornam realidade.
+                    <p>
+                        Nosso studio é um refúgio premium, onde o profissionalismo extremo garante que cada detalhe seja executado para realizar o seu sonho.
                     </p>
-                    <div class="mt-4">
-                        <a href="https://www.instagram.com/studiorayssalima_" class="btn-outline-luxury" target="_blank">Conheça o Instagram</a>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-num">+10</span>
+                            <span class="stat-label">Anos de Expertise</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-num">VIP</span>
+                            <span class="stat-label">Atendimento Premium</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Fim Seção A Expert -->
+
+    <section id="portfolio" class="section-padding">
+        <div class="container-fluid p-0">
+            <div class="container mb-5" data-gsap="fade-up">
+                <div class="text-center">
+                    <span class="section-subtitle">Portfolio</span>
+                    <h2 class="section-heading">Transformações Reais</h2>
+                </div>
+            </div>
+            
+            <div class="portfolio-wrapper" data-gsap="fade-up">
+                <button class="portfolio-nav-btn prev-btn"><i class="bi bi-chevron-left"></i></button>
+                <div class="portfolio-track">
+                    <div class="portfolio-card">
+                        <img src="Rayssa Lima Expert.jpg" alt="Iluminado Premium">
+                        <div class="portfolio-overlay">
+                            <h3 class="portfolio-title">Iluminado Premium</h3>
+                            <div class="portfolio-cat">Fita Adesiva Invisível</div>
+                        </div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img src="Rayssa Lima Mega hair 4.jpg" alt="Volume & Densidade">
+                        <div class="portfolio-overlay">
+                            <h3 class="portfolio-title">Volume & Densidade</h3>
+                            <div class="portfolio-cat">Acabamento Natural</div>
+                        </div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img src="Loiro Perolado Rayssa Lima Mega Hair.jpg" alt="Loiro Perolado">
+                        <div class="portfolio-overlay">
+                            <h3 class="portfolio-title">Loiro Perolado</h3>
+                            <div class="portfolio-cat">Correção de Cor</div>
+                        </div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img src="Rayssa Lima Mega  03.jpg" alt="Brasileiro do Sul">
+                        <div class="portfolio-overlay">
+                            <h3 class="portfolio-title">Brasileiro do Sul</h3>
+                            <div class="portfolio-cat">Textura Fina</div>
+                        </div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img src="Rayssa Lima Mega Hair.jpg" alt="Acabamento Natural">
+                        <div class="portfolio-overlay">
+                            <h3 class="portfolio-title">Naturalidade</h3>
+                            <div class="portfolio-cat">Personalizado</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="portfolio-nav-btn next-btn"><i class="bi bi-chevron-right"></i></button>
+            </div>
+            
+            <div class="container text-center mt-5">
+                <a href="https://www.instagram.com/studiorayssalima_" target="_blank" class="btn-luxury">Ver Mais no Instagram</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="expert" class="section-padding bg-dark-panel">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-2 mb-5 mb-lg-0" data-gsap="fade-up">
+                    <div class="luxury-frame" style="padding: 20px 20px 0 0;">
+                        <img src="a expert Rayssa Lima.jpg" alt="Rayssa Lima">
+                    </div>
+                </div>
+                <div class="col-lg-5 order-lg-1" data-gsap="fade-up" data-delay="0.2">
+                    <span class="section-subtitle">A Expert</span>
+                    <h2 class="section-heading">Rayssa Lima</h2>
+                    <p>
+                        Com mais de uma década de dedicação à excelência, Rayssa Lima consolidou-se como uma referência em Mega Hair. Dominando as técnicas mais prestigiadas e seguras do mercado.
+                    </p>
+                    <p>
+                        Uma união perfeita entre precisão técnica e um olhar sensível para a beleza individual.
+                    </p>
+                    <div class="mt-5">
+                        <a href="https://www.instagram.com/studiorayssalima_" class="btn-luxury">Conheça a Trajetória</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer class="footer-luxury">
         <div class="container">
-            <div class="row justify-content-between align-items-center">
-                <div class="col-md-4 text-center text-md-start mb-4 mb-md-0">
-                    <h4>Rayssa Lima</h4>
-                    <p class="small text-white">Mega Hair Expert & Beauty Stars Winner</p>
+            <div class="row align-items-start">
+                <div class="col-lg-4 text-center text-lg-start mb-5 mb-lg-0">
+                    <div class="footer-brand">Rayssa Lima</div>
+                    <div class="footer-sub">Mega Hair Expert & Beauty Stars Winner</div>
+                    <div class="mt-4 footer-social">
+                        <a href="https://www.instagram.com/studiorayssalima_" target="_blank"><i class="bi bi-instagram"></i></a>
+                        <a href="https://web.whatsapp.com/send?phone=557192396052" target="_blank"><i class="bi bi-whatsapp"></i></a>
+                    </div>
                 </div>
-                <div class="col-md-4 text-center mb-4 mb-md-0">
-                    <a href="#" class="brand-icon"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="brand-icon"><i class="bi bi-whatsapp"></i></a>
-                </div>
-                <div class="col-md-4 text-center text-md-end">
-                    <p class="address">Villa Verde Street Mall<br>Vilas do Atlântico, Lauro de Freitas - BA</p>
+                
+                <div class="col-lg-4 text-center mb-5 mb-lg-0">
+                    </div>
+
+                <div class="col-lg-4 text-center text-lg-end">
+                    <p style="font-size: 0.9rem; color: #fff; margin-bottom: 5px;">Villa Verde Street Mall</p>
+                    <p style="font-size: 0.8rem; color: #888;">Av. Praia de Itapuã, 805<br>Vilas do Atlântico, BA</p>
+                    
+                    <a href="https://www.google.com/maps/search/?api=1&query=Shopping+Center+Villaverde+Lauro+de+Freitas&query_place_id=ChIJg0bC7gk-FgcRbZkZb87fr2w" target="_blank" class="btn-map-pill">
+                        <i class="bi bi-geo-alt-fill"></i> Como Chegar
+                    </a>
                 </div>
             </div>
-            <div class="row mt-5">
-                <div class="col-12 text-center copyright">
-                    <p>&copy; 2025 Rayssa Lima Expert. Todos os direitos reservados.</p>
+            
+            <div class="row mt-5 pt-5" style="border-top: 1px solid rgba(255,255,255,0.03);">
+                <div class="col-12 text-center">
+                    <p style="font-size: 0.7rem; color: #444; letter-spacing: 1px;">© 2025 RAYSSA LIMA EXPERT. TODOS OS DIREITOS RESERVADOS.</p>
                 </div>
             </div>
         </div>
     </footer>
 
-    <a href="https://api.whatsapp.com/message/QBMFUK7NZ2JVL1" class="whatsapp-float" target="_blank">
-        <i class="bi bi-whatsapp"></i>
-    </a>
+    <div class="floating-group">
+        <a href="https://www.google.com/maps/search/?api=1&query=Shopping+Center+Villaverde+Lauro+de+Freitas&query_place_id=ChIJg0bC7gk-FgcRbZkZb87fr2w" target="_blank" class="btn-float map-float" aria-label="Ver Localização">
+            <i class="bi bi-geo-alt-fill"></i>
+        </a>
+        <a href="https://web.whatsapp.com/send?phone=557192396052&text=Olá,%20gostaria%20de%20agendar%20um%20horário." class="btn-float whatsapp-float" target="_blank" aria-label="WhatsApp">
+            <i class="bi bi-whatsapp"></i>
+        </a>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="script.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // 1. Loader Logic
+            const loader = document.querySelector('.loader-wrapper');
+            setTimeout(() => {
+                gsap.to(loader, { opacity: 0, duration: 1, ease: "power2.inOut", onComplete: () => { 
+                    loader.style.display = 'none'; 
+                    initAnimations(); 
+                }});
+            }, 1200);
+
+            // 2. Navbar Logic
+            const navbar = document.querySelector('.navbar');
+
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                if (scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // 3. Hero Slider Logic
+            const slides = document.querySelectorAll('.hero-slide');
+            const ambientBg = document.querySelector('.ambient-bg');
+            const sliderContainer = document.querySelector('.hero-slider-container');
+            let currentSlide = 0;
+            let autoPlayInterval;
+
+            function updateSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                const activeSlide = slides[index];
+                activeSlide.classList.add('active');
+                
+                // Animação de entrada do texto mobile
+                if (window.innerWidth < 992) {
+                    gsap.fromTo(".hero-content-mobile > *", 
+                        { y: 40, opacity: 0 },
+                        { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power3.out", clearProps: "all" }
+                    );
+                }
+            }
+
+            function nextSlideFunc() { currentSlide = (currentSlide + 1) % slides.length; updateSlide(currentSlide); }
+            function prevSlideFunc() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; updateSlide(currentSlide); }
+
+            // Touch Swipe Logic for Hero
+            let touchStartX = 0; let touchEndX = 0;
+            sliderContainer.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; clearInterval(autoPlayInterval); }, {passive: true});
+            sliderContainer.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); startAutoPlay(); }, {passive: true});
+
+            function handleSwipe() {
+                if (touchEndX < touchStartX - 50) nextSlideFunc();
+                if (touchEndX > touchStartX + 50) prevSlideFunc();
+            }
+
+            function startAutoPlay() { autoPlayInterval = setInterval(nextSlideFunc, 5000); }
+            startAutoPlay(); updateSlide(0);
+
+            // 4. Portfolio Carousel Logic (Horizontal Scroll)
+            const track = document.querySelector('.portfolio-track');
+            const prevBtn = document.querySelector('.portfolio-nav-btn.prev-btn');
+            const nextBtn = document.querySelector('.portfolio-nav-btn.next-btn');
+
+            if (track && prevBtn && nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    track.scrollBy({ left: 350, behavior: 'smooth' });
+                });
+                prevBtn.addEventListener('click', () => {
+                    track.scrollBy({ left: -350, behavior: 'smooth' });
+                });
+            }
+
+            // 5. Premium Scroll Animations
+            function initAnimations() {
+                gsap.registerPlugin(ScrollTrigger);
+                const fadeElements = document.querySelectorAll('[data-gsap="fade-up"]');
+                fadeElements.forEach(el => {
+                    const delay = el.getAttribute('data-delay') || 0;
+                    gsap.fromTo(el, 
+                        { y: 60, opacity: 0 },
+                        {
+                            y: 0, opacity: 1, duration: 1.2, delay: delay, ease: "power4.out",
+                            scrollTrigger: { trigger: el, start: "top 90%" }
+                        }
+                    );
+                });
+            }
+        });
+    </script>
 </body>
-
 </html>
-
-

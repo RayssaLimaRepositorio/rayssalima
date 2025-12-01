@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17770518811"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17770518811"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  gtag('config', 'AW-17770518811');
-</script>
+      gtag('config', 'AW-17770518811');
+    </script>
+
+    <script>
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-17770518811/6vyOCOLu9ckbEJuy0plC',
+          'event_callback': callback
+      });
+      return false;
+    }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
@@ -578,7 +592,7 @@
                     <p style="font-size: 0.9rem; color: #fff; margin-bottom: 5px;">Villa Verde Street Mall</p>
                     <p style="font-size: 0.8rem; color: #888;">Av. Praia de Itapuã, 805<br>Vilas do Atlântico, BA</p>
                     
-                    <a href="https://www.google.com/maps/search/?api=1&query=Shopping+Center+Villaverde+Lauro+de+Freitas&query_place_id=ChIJg0bC7gk-FgcRbZkZb87fr2w" target="_blank" class="btn-map-pill">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Shopping+Center+Villaverde+Lauro+de+Freitas&query_place_id=ChIJg0bC7gk-FgcRbZkZb87fr2w" onclick="return gtag_report_conversion(this.href);" target="_blank" class="btn-map-pill">
                         <i class="bi bi-geo-alt-fill"></i> Como Chegar
                     </a>
                 </div>
@@ -593,7 +607,7 @@
     </footer>
 
     <div class="floating-group">
-        <a href="https://www.google.com/maps/search/?api=1&query=Shopping+Center+Villaverde+Lauro+de+Freitas&query_place_id=ChIJg0bC7gk-FgcRbZkZb87fr2w" target="_blank" class="btn-float map-float" aria-label="Ver Localização">
+        <a href="https://www.google.com/maps/search/?api=1&query=Shopping+Center+Villaverde+Lauro+de+Freitas&query_place_id=ChIJg0bC7gk-FgcRbZkZb87fr2w" onclick="return gtag_report_conversion(this.href);" target="_blank" class="btn-float map-float" aria-label="Ver Localização">
             <i class="bi bi-geo-alt-fill"></i>
         </a>
         <a href="https://web.whatsapp.com/send?phone=557192396052&text=Olá,%20gostaria%20de%20agendar%20um%20horário." class="btn-float whatsapp-float" target="_blank" aria-label="WhatsApp">
@@ -699,5 +713,3 @@
     </script>
 </body>
 </html>
-
-
